@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% from "_macros.html" import page_head, crop_photo %}
+{% block title %}{{ crop.name }} - AGRO SERVE{% endblock %}
+{% block content %}
+{{ page_head(crop.name, crop.desc) }}
+<section class="section cream"><div class="container split">
+  {{ crop_photo(crop, "split-photo") }}
+  <div class="card">
+    <table class="facts-table">
+      <tr><th>Suitable soil</th><td>{{ crop.soils|join(', ') }}</td></tr>
+      <tr><th>Best season</th><td>{{ crop.seasons|join(', ') }}</td></tr>
+      <tr><th>Rainfall</th><td>{{ crop.rain[0] }}-{{ crop.rain[1] }} mm</td></tr>
+      <tr><th>Water need</th><td>{{ crop.water }}</td></tr>
+      <tr><th>Growing duration</th><td>{{ crop.duration }}</td></tr>
+    </table>
+    <h3>Cultivation tips</h3>
+    <ul class="checks">{% for t in crop.tips %}<li>{{ t }}</li>{% endfor %}</ul>
+    <div class="btn-row">
+      <a class="btn btn-primary" href="{{ url_for('compare', a=crop.slug) }}">Compare Profit</a>
+      <a class="btn btn-outline" href="{{ url_for('crop_info') }}">All Crops</a>
+    </div>
+  </div>
+</div></section>
+{% endblock %}

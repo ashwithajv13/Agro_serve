@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% from "_macros.html" import page_head %}
+{% block title %}Compare Crops - AGRO SERVE{% endblock %}
+{% block content %}
+{{ page_head("Compare Crops and Estimate Profit", "Choose up to three crops and your land size to compare estimated returns.") }}
+<section class="section cream"><div class="container">
+  <form class="card compare-form" method="get" action="{{ url_for('compare') }}">
+    {% for key in "abc" %}
+    {% set want = selected[loop.index0] if loop.index0 < selected|length else "" %}
+    <label>Crop {{ loop.index }}
+      <select name="{{ key }}"><option value="">{{ 'None' if not loop.first else 'Select' }}</option>
+      {% for c in crops %}<option value="{{ c.slug }}" {{ 'selected' if c.slug == want }}>{{ c.name }}</option>{% endfor %}</select></label>
+    {% endfor %}
+    <label>Land Area (acres)<input type="number" name="acres" min="0.1" max="1000" step="0.1" value="{{ acres }}"></label>
+    <button class="btn btn-primary" type="submit">Compare</button>
+  </form>
+
+  <div class="card table-wrap">
+    <table class="table">
+      <thead><tr><th>Measure</th>{% for r in rows %}<th>{{ r.crop.icon }} {{ r.crop.name }}</th>{% endfor %}</tr></thead>
+      <tbody>
+        <tr><td>Suitable soil</td>{% for r in rows %}<td>{{ r.crop.soils|join(', ') }}</td>{% endfor %}</tr>
+        <tr><td>Water requirement</td>{% for r in rows %}<td>{{ r.crop.water }}</td>{% endfor %}</tr>
+        <tr><td>Growing duration</td>{% for r in rows %}<td>{{ r.crop.duration }}</td>{% endfor %}</tr>
+        <tr><td>Yield per acre</td>{% for r in rows %}<td>{{ r.crop.yield_q }} quintals</td>{% endfor %}</tr>
+        <tr><td>Total yield ({{ acres }} acres)</td>{% for r in rows %}<td>{{ '%.0f'|format(r.total_yield) }} quintals</td>{% endfor %}</tr>
+        <tr><td>Market price per quintal <em>(sample)</em></td>{% for r in rows %}<td>{{ r.crop.price|inr }}</td>{% endfor %}</tr>
+        <tr><td>Cultivation cost</td>{% for r in rows %}<td>{{ r.cost|inr }}</td>{% endfor %}</tr>
+        <tr><td>Expected income</td>{% for r in rows %}<td>{{ r.income|inr }}</td>{% endfor %}</tr>
+        <tr class="total"><td>Estimated net profit</td>{% for r in rows %}<td class="{{ 'neg' if r.profit < 0 else 'pos' }}">{{ r.profit|inr }}</td>{% endfor %}</tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>Estimated profit comparison</h3>
+    <div class="hbars">
+      {% for r in rows %}
+      <div class="hbar"><span class="hb-name">{{ r.crop.name }}</span>
+        <div class="hb-track"><div class="hb-fill {{ 'neg' if r.profit < 0 }}" style="width:{{ (100 * r.profit / best) if r.profit > 0 and best > 0 else 0 }}%"></div></div>
+        <b>{{ r.profit|inr }}</b></div>
+      {% endfor %}
+    </div>
+  </div>
+  <p class="note center-note">Prices, yields and costs are <b>sample values for demonstration</b>, not live market prices (mandi: sample data). This is an <b>estimated</b> profit, not a guaranteed one: actual profit varies with yield, prices, weather, labour, fertilizer and transport.</p>
+</div></section>
+{% endblock %}

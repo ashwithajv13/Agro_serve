@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% from "_macros.html" import page_head %}
+{% block title %}Farm Details - AGRO SERVE{% endblock %}
+{% block content %}
+{{ page_head("Farm Details", "Tell us about your land. It takes about a minute.") }}
+<section class="section cream">
+  <div class="container form-layout">
+    <form class="card form" method="post" action="{{ url_for('recommendations') }}">
+      {% if error %}<div class="alert">{{ error }}</div>{% endif %}
+      <div class="form-grid">
+        <label>Farmer Name
+          <input type="text" name="name" placeholder="e.g. Ramesh" value="{{ form.get('name', '') }}" required></label>
+        <label>Location / District
+          <input type="text" name="district" placeholder="e.g. Mandya" value="{{ form.get('district', '') }}" required></label>
+        <label>Soil Type
+          <select name="soil" required><option value="">Select soil type</option>
+          {% for s in soils %}<option {{ 'selected' if form.get('soil') == s }}>{{ s }}</option>{% endfor %}</select></label>
+        <label>Season
+          <select name="season" required><option value="">Select season</option>
+          {% for s in seasons %}<option {{ 'selected' if form.get('season') == s }}>{{ s }}</option>{% endfor %}</select></label>
+        <label>Expected Rainfall (mm)
+          <input type="number" name="rainfall" min="100" max="4000" placeholder="e.g. 900" value="{{ form.get('rainfall', '') }}" required>
+          <small>Total rain expected in the season, between 100 and 4000 mm.</small></label>
+        <label>Water Availability
+          <select name="water" required><option value="">Select water level</option>
+          {% for l in levels %}<option {{ 'selected' if form.get('water') == l }}>{{ l }}</option>{% endfor %}</select>
+          <small>Low: rain only. High: canal, borewell or tank all season.</small></label>
+        <label>Land Area (acres)
+          <input type="number" name="acres" min="0.1" max="1000" step="0.1" placeholder="e.g. 5" value="{{ form.get('acres', '') }}" required></label>
+      </div>
+      <div class="btn-row">
+        <button type="submit" class="btn btn-primary">Get Crop Recommendation</button>
+        <button type="reset" class="btn btn-outline">Reset Form</button>
+      </div>
+    </form>
+    <aside class="card side">
+      <h3>Why we ask</h3>
+      <ul class="checks">
+        <li><b>Soil and season</b> decide which crops can grow well.</li>
+        <li><b>Rainfall and water</b> show how much irrigation you will need.</li>
+        <li><b>Land area</b> lets us estimate total income and profit.</li>
+      </ul>
+      <p class="note">Your details are only used to build your recommendation.</p>
+    </aside>
+  </div>
+</section>
+{% endblock %}

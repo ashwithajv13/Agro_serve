@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% from "_macros.html" import page_head %}
+{% block title %}About Us - AGRO SERVE{% endblock %}
+{% block content %}
+{{ page_head("About AGRO SERVE", "A community project helping farmers decide what to grow.") }}
+<section class="section cream"><div class="container grid grid-3">
+  <div class="card feature"><span class="icon">🎯</span><h3>Our objective</h3><p>Help farmers find suitable crops for their land and understand which may give better returns.</p></div>
+  <div class="card feature"><span class="icon">⚙️</span><h3>How it works</h3><p>Rule-based scoring on soil, season, rainfall and water, plus simple profit formulas.</p></div>
+  <div class="card feature"><span class="icon">🧰</span><h3>Built with</h3><p>HTML, CSS, JavaScript, Python and Flask. Lightweight, free to host.</p></div>
+</div></section>
+<section class="section"><div class="container form-layout">
+  <form class="card form" method="post" action="{{ url_for('about') }}">
+    <h3>Contact and feedback</h3>
+    {% if sent %}<div class="alert ok">Thank you{{ ', ' ~ name if name }}! Your message was received.</div>{% endif %}
+    <label>Name<input type="text" name="name" required></label>
+    <label>Email<input type="email" name="email" required></label>
+    <label>Feedback message<textarea name="message" rows="5" required></textarea></label>
+    <button class="btn btn-primary" type="submit">Send Feedback</button>
+  </form>
+  <aside class="card side"><h3>Get in touch</h3>
+    <p>✉️ hello@agroserve.example</p><p>📞 +91 00000 00000</p>
+    <p class="note">Messages are saved to the database in a later step.</p></aside>
+</div></section>
+{% endblock %}

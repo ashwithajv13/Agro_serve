@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% from "_macros.html" import page_head, crop_photo, badge %}
+{% block title %}Your Crop Recommendations - AGRO SERVE{% endblock %}
+{% block content %}
+{{ page_head("Your Crop Recommendations", "Best matches for " ~ summary.name ~ "'s land, highest score first.") }}
+<section class="section cream">
+  <div class="container">
+    <div class="card summary">
+      <h3>Your farm details</h3>
+      <div class="chips">
+        <span>📍 {{ summary.district }}</span><span>🪨 {{ summary.soil }}</span><span>🗓️ {{ summary.season }}</span>
+        <span>🌧️ {{ summary.rainfall }} mm</span><span>💧 {{ summary.water }} water</span><span>📐 {{ summary.acres }} acres</span>
+      </div>
+    </div>
+    <div class="grid grid-3 results">
+      {% for r in results %}
+      <article class="card crop-card">
+        {{ crop_photo(r.crop) }}
+        <div class="card-body">
+          <div class="row"><h3>{{ r.crop.name }}</h3>{{ badge(r.label) }}</div>
+          <div class="score"><div class="bar"><span style="width:{{ r.score }}%"></span></div><b>{{ r.score }}%</b></div>
+          <ul class="reasons">{% for t in r.reasons %}<li>{{ t }}</li>{% endfor %}</ul>
+          <p class="facts">Soil: {{ r.crop.soils|join(', ') }}<br>Water: {{ r.crop.water }} · Season: {{ r.crop.seasons|join(', ') }}</p>
+          <a class="btn btn-outline btn-sm" href="{{ url_for('crop_detail', slug=r.crop.slug) }}">View Details</a>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+    <div class="btn-row center-row">
+      <a class="btn btn-primary" href="{{ url_for('compare', a=results[0].crop.slug, b=results[1].crop.slug, c=results[2].crop.slug, acres=summary.acres) }}">Compare Top 3 Crops</a>
+      <a class="btn btn-outline" href="{{ url_for('farm_details') }}">Change Details</a>
+    </div>
+    <div class="card explain">
+      <h3>How the suitability score is calculated</h3>
+      <p>Each crop gets up to <b>100 points</b>: <b>Soil 30</b> + <b>Season 30</b> + <b>Rainfall 20</b> + <b>Water 20</b>. Soil and season score full or zero. Rainfall loses 1 point for every 25 mm outside the crop's ideal range. Water scores 20 for an exact match, 10 if one level off and 0 if two levels off.
+      <b>80+ Highly Suitable</b>, <b>50-79 Suitable</b>, below 50 <b>Less Suitable</b>.</p>
+    </div>
+  </div>
+</section>
+{% endblock %}

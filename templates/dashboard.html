@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% from "_macros.html" import page_head %}
+{% block title %}My Dashboard - AGRO SERVE{% endblock %}
+{% block content %}
+{{ page_head("My Dashboard", "Your recent searches and best-match crops on this device.") }}
+<section class="section cream"><div class="container">
+  {% if history %}
+  <div class="grid grid-3">
+    {% for h in history %}
+    <div class="card hist">
+      <span class="pill high">Best: {{ h.best }} · {{ h.score }}%</span>
+      <h3>{{ h.name }}{% if h.district %}, {{ h.district }}{% endif %}</h3>
+      <p>{{ h.soil }} · {{ h.season }} · {{ h.rainfall }} mm · {{ h.water }} water · {{ h.acres }} acres</p>
+    </div>
+    {% endfor %}
+  </div>
+  <form method="post" class="center-row"><button class="btn btn-outline" type="submit">Clear History</button></form>
+  {% else %}
+  <div class="card empty">
+    <span class="icon">📋</span><h3>No searches yet</h3>
+    <p>Enter your farm details and your recommendations will appear here.</p>
+    <a class="btn btn-primary" href="{{ url_for('farm_details') }}">Get Started</a>
+  </div>
+  {% endif %}
+</div></section>
+{% endblock %}

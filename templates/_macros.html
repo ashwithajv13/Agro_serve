@@ -1,0 +1,15 @@
+{# Reusable pieces. A crop photo with a coloured fallback if the .jpg is not added yet. #}
+{% macro crop_photo(crop, cls="") %}
+<div class="photo {{ cls }}" style="background:linear-gradient(135deg,{{ crop.c1 }},{{ crop.c2 }})">
+  <span class="photo-fallback">{{ crop.icon }}</span>
+  <img src="{{ url_for('static', filename='images/crops/' ~ crop.slug ~ '.jpg') }}" alt="{{ crop.name }} crop" loading="lazy" onerror="this.remove()">
+</div>
+{% endmacro %}
+
+{% macro page_head(title, text) %}
+<section class="page-head"><div class="container"><h1>{{ title }}</h1><p>{{ text }}</p></div></section>
+{% endmacro %}
+
+{% macro badge(label) %}
+<span class="pill {{ 'high' if label == 'Highly Suitable' else 'mid' if label == 'Suitable' else 'low' }}">{{ label }}</span>
+{% endmacro %}

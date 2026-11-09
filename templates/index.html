@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% from "_macros.html" import crop_photo %}
+{% block title %}AGRO SERVE - Grow Smarter, Harvest Better{% endblock %}
+{% block content %}
+
+<!-- HERO: text on the left, real photo on the right -->
+<section class="hero">
+  <div class="container hero-grid">
+    <div>
+      <span class="eyebrow">🌱 Crop recommendations for farmers</span>
+      <h1>Grow Smarter, Harvest Better.</h1>
+      <p class="lead">Enter your soil, season, rainfall and water. AGRO SERVE suggests the crops that suit your land and estimates what each one could earn, so you can choose with confidence.</p>
+      <div class="btn-row">
+        <a href="{{ url_for('farm_details') }}" class="btn btn-primary">Get Started</a>
+        <a href="{{ url_for('crop_info') }}" class="btn btn-outline">Explore Crops</a>
+      </div>
+      <ul class="hero-points"><li>✔ Free to use</li><li>✔ Simple scoring</li><li>✔ Profit estimates</li></ul>
+    </div>
+    <div class="photo hero-photo" style="background:linear-gradient(135deg,#9fd08a,#2f8f4e)">
+      <span class="photo-fallback">🌾</span>
+      <img src="{{ url_for('static', filename='images/hero.jpg') }}" alt="Green crop field" onerror="this.remove()">
+    </div>
+  </div>
+</section>
+
+<!-- A. WHY CHOOSE -->
+<section class="section cream">
+  <div class="container">
+    <div class="section-head"><h2>Why Choose AGRO SERVE?</h2><p>Four tools that turn your land details into a clear crop decision.</p></div>
+    <div class="grid grid-4">
+      <div class="card feature"><span class="icon">🎯</span><h3>Smart Crop Recommendations</h3><p>Every crop is scored out of 100 against your conditions.</p></div>
+      <div class="card feature"><span class="icon">🪨</span><h3>Soil-Based Suggestions</h3><p>Black, red, sandy, clay, alluvial or loamy: results follow your soil.</p></div>
+      <div class="card feature"><span class="icon">🏷️</span><h3>Market Price Information</h3><p>See price per quintal in rupees, clearly marked as sample or live.</p></div>
+      <div class="card feature"><span class="icon">💰</span><h3>Profit Estimation</h3><p>Yield, income, cost and estimated profit for your land size.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- B. HOW IT WORKS -->
+<section class="section">
+  <div class="container">
+    <div class="section-head"><h2>How It Works</h2><p>Three simple steps from farm details to a crop plan.</p></div>
+    <div class="grid grid-3">
+      <div class="card step"><span class="step-num">1</span><h3>Enter Farm Details</h3><p>Add your district, soil type, season, expected rainfall, water availability and land area.</p></div>
+      <div class="card step"><span class="step-num">2</span><h3>Analyze Farm Conditions</h3><p>The system checks each crop against your land using clear, easy-to-explain rules.</p></div>
+      <div class="card step"><span class="step-num">3</span><h3>Get Crop Recommendations</h3><p>See the best crops with reasons, then compare their estimated profit.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- C. POPULAR CROPS -->
+<section class="section cream">
+  <div class="container">
+    <div class="section-head"><h2>Popular Crops</h2><p>Tap a crop to see soil, season, water needs and growing tips.</p></div>
+    <div class="grid grid-3">
+      {% for crop in popular %}
+      <a class="card crop-card" href="{{ url_for('crop_detail', slug=crop.slug) }}">
+        {{ crop_photo(crop) }}
+        <div class="card-body"><h3>{{ crop.name }}</h3><p>{{ crop.desc }}</p><span class="link">View details →</span></div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- D. BENEFITS -->
+<section class="section">
+  <div class="container split">
+    <div class="photo split-photo" style="background:linear-gradient(135deg,#cfe8b8,#4e9a5b)">
+      <span class="photo-fallback">🧑‍🌾</span>
+      <img src="{{ url_for('static', filename='images/benefits.jpg') }}" alt="Farmer in a field" loading="lazy" onerror="this.remove()">
+    </div>
+    <div>
+      <h2>Benefits of Smart Farming</h2>
+      <p class="lead-sm">Choosing the right crop early protects your seed, water and money.</p>
+      <ul class="checks">
+        <li><b>Fewer risky choices.</b> Avoid crops that do not suit your soil or season.</li>
+        <li><b>Better use of water.</b> Match crops to the water you actually have.</li>
+        <li><b>Clearer finances.</b> Compare income and cost before you sow.</li>
+        <li><b>Confident decisions.</b> Every score comes with plain reasons.</li>
+      </ul>
+      <a href="{{ url_for('compare') }}" class="btn btn-primary">Compare Crop Profit</a>
+    </div>
+  </div>
+</section>
+
+<!-- E. CALL TO ACTION -->
+<section class="cta">
+  <div class="container center">
+    <h2>Ready to Find the Right Crop for Your Land?</h2>
+    <p>It takes less than a minute.</p>
+    <a href="{{ url_for('farm_details') }}" class="btn btn-gold">Get Started</a>
+  </div>
+</section>
+{% endblock %}

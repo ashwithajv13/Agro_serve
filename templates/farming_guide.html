@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% from "_macros.html" import page_head %}
+{% block title %}Farming Guide - AGRO SERVE{% endblock %}
+{% block content %}
+{{ page_head("Farming Guide", "Weather, fertilizer and cultivation basics in one place.") }}
+<section class="section cream"><div class="container">
+  <h2>Weather snapshot</h2>
+  <p class="note">Sample values for layout. Live weather from a free API is added in a later step.</p>
+  <div class="grid grid-4">
+    <div class="card stat"><span>🌡️</span><b>28°C</b><small>Temperature</small></div>
+    <div class="card stat"><span>🌧️</span><b>4 mm</b><small>Rainfall today</small></div>
+    <div class="card stat"><span>💧</span><b>72%</b><small>Humidity</small></div>
+    <div class="card stat"><span>⛅</span><b>Cloudy</b><small>Conditions</small></div>
+  </div>
+  <div class="card tip"><b>Suggestion:</b> Light rain and high humidity: avoid spraying today and watch for fungal disease.</div>
+</div></section>
+
+<section class="section"><div class="container">
+  <h2>Fertilizer and nutrient guide</h2>
+  <div class="card table-wrap"><table class="table">
+    <thead><tr><th>Crop</th><th>Nutrient needs (N-P-K) and fertilizers</th></tr></thead>
+    <tbody>{% for c in crops %}<tr><td>{{ c.icon }} {{ c.name }}</td><td>{{ c.nutrients }}</td></tr>{% endfor %}</tbody>
+  </table></div>
+  <p class="note">General guidance only. Please verify fertilizer doses with a soil-test report from your local agriculture office.</p>
+</div></section>
+
+<section class="section cream"><div class="container">
+  <h2>Cultivation and soil tips</h2>
+  <div class="grid grid-3">
+    <div class="card feature"><span class="icon">🌱</span><h3>Prepare the soil</h3><p>Plough, level and add farmyard manure before sowing.</p></div>
+    <div class="card feature"><span class="icon">💧</span><h3>Water wisely</h3><p>Irrigate at critical growth stages instead of flooding often.</p></div>
+    <div class="card feature"><span class="icon">♻️</span><h3>Improve the soil</h3><p>Rotate crops, add compost and keep crop residue as mulch.</p></div>
+  </div>
+</div></section>
+{% endblock %}

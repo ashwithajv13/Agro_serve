@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}AGRO SERVE{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  {% set ep = request.endpoint %}
+  <!-- Navbar: written once, shown on every page. Full row on desktop, hamburger only on small screens. -->
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a href="{{ url_for('home') }}" class="logo">🌱 AGRO SERVE</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Open menu">☰</button>
+      <nav id="navLinks" class="nav-links">
+        <a href="{{ url_for('home') }}" class="{{ 'active' if ep == 'home' }}">Home</a>
+        <a href="{{ url_for('farm_details') }}" class="{{ 'active' if ep in ('farm_details', 'recommendations') }}">Farm Details</a>
+        <a href="{{ url_for('crop_info') }}" class="{{ 'active' if ep in ('crop_info', 'crop_detail') }}">Crop Information</a>
+        <a href="{{ url_for('compare') }}" class="{{ 'active' if ep == 'compare' }}">Compare Crops</a>
+        <a href="{{ url_for('farming_guide') }}" class="{{ 'active' if ep == 'farming_guide' }}">Farming Guide</a>
+        <a href="{{ url_for('dashboard') }}" class="{{ 'active' if ep == 'dashboard' }}">Dashboard</a>
+        <a href="{{ url_for('about') }}" class="{{ 'active' if ep == 'about' }}">About Us</a>
+        <a href="{{ url_for('farm_details') }}" class="btn btn-primary btn-sm">Get Started</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>{% block content %}{% endblock %}</main>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <strong class="footer-logo">🌱 AGRO SERVE</strong>
+        <p>A community project that helps farmers choose suitable crops and compare estimated profit.</p>
+      </div>
+      <div class="footer-links"><h4>Explore</h4>
+        <a href="{{ url_for('farm_details') }}">Farm Details</a>
+        <a href="{{ url_for('crop_info') }}">Crop Information</a>
+        <a href="{{ url_for('compare') }}">Compare Crops</a>
+        <a href="{{ url_for('farming_guide') }}">Farming Guide</a>
+      </div>
+      <div class="footer-links"><h4>Contact</h4>
+        <span>✉️ hello@agroserve.example</span>
+        <span>📞 +91 00000 00000</span>
+        <a href="{{ url_for('about') }}">About Us &amp; Feedback</a>
+      </div>
+    </div>
+    <p class="footer-note">Estimates only. Actual results depend on weather, prices and farm costs. Replace the sample contact details with your own.</p>
+  </footer>
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
