@@ -3,7 +3,7 @@
 import re
 from flask import Flask, render_template, request, session, redirect, url_for, abort
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="public", static_url_path="")
 app.secret_key = "change-this-before-deploying"   # needed for the session (dashboard history)
 
 SOILS = ["Black Soil", "Red Soil", "Sandy Soil", "Clay Soil", "Alluvial Soil", "Loamy Soil"]

@@ -2,7 +2,7 @@
 {% macro crop_photo(crop, cls="") %}
 <div class="photo {{ cls }}" style="background:linear-gradient(135deg,{{ crop.c1 }},{{ crop.c2 }})">
   <span class="photo-fallback">{{ crop.icon }}</span>
-  <img src="{{ url_for('static', filename='images/crops/' ~ crop.slug ~ '.jpg') }}" alt="{{ crop.name }} crop" loading="lazy" onerror="this.remove()">
+  <img src="/images/crops/{{ crop.image }}">
 </div>
 {% endmacro %}
 
